@@ -5,7 +5,9 @@ import pl.oskarpolak.models.database.DatabaseConnector;
 import pl.oskarpolak.models.database.dao.WeatherDao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherDaoImpl implements WeatherDao {
@@ -27,6 +29,25 @@ public class WeatherDaoImpl implements WeatherDao {
 
     @Override
     public List<WeatherModel> loadWeather(String city) {
-        return null;
+        List<WeatherModel> weatherModels = new ArrayList<>();
+
+        PreparedStatement statement = databaseConnector.createStatement(
+                "SELECT * FROM weather WHERE cityname = ?"
+        );
+        WeatherModel model;
+        try {
+            statement.setString(1, city);
+            ResultSet set = statement.executeQuery();
+            while (set.next()){
+                model = new WeatherModel(set.getInt("id"),
+                        set.getString("cityname"),
+                        set.getFloat("temp"));
+                weatherModels.add(model);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return weatherModels;
     }
 }

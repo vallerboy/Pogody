@@ -11,6 +11,8 @@ import pl.oskarpolak.models.database.dao.WeatherDao;
 import pl.oskarpolak.models.database.dao.impl.WeatherDaoImpl;
 
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable{
@@ -26,8 +28,7 @@ public class MainController implements Initializable{
         weatherDao.saveWeather(weatherModel);
 
 
-
-       buttonHey.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buttonHey.setOnMouseClicked(new EventHandler<MouseEvent>() {
            public void handle(MouseEvent event) {
                if(event.isAltDown())
                System.out.println("Test");
