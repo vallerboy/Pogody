@@ -1,5 +1,6 @@
 package pl.oskarpolak.controllers;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,8 @@ import pl.oskarpolak.models.WeatherModel;
 import pl.oskarpolak.models.database.DatabaseConnector;
 import pl.oskarpolak.models.database.dao.WeatherDao;
 import pl.oskarpolak.models.database.dao.impl.WeatherDaoImpl;
+import pl.oskarpolak.models.services.WeatherData;
+import pl.oskarpolak.models.services.WeatherObserver;
 import pl.oskarpolak.models.services.WeatherService;
 
 import java.net.URL;
@@ -18,7 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable{
+public class MainController implements Initializable, WeatherObserver{
 
     @FXML
     Button buttonWeather;
@@ -33,16 +36,20 @@ public class MainController implements Initializable{
     private WeatherService weatherService = WeatherService.getService();
 
     public void initialize(URL location, ResourceBundle resources) {
+        weatherService.registerObserver(this);
+        buttonWeather.setOnMouseClicked(e -> showWeather());
 
-        WeatherModel weatherModel = new WeatherModel(0, "Kraków", 5f);
-//        weatherDao.saveWeather(weatherModel);
-        weatherService.makeCall("Cracow");
+    }
 
-        for (WeatherModel model : weatherDao.loadWeather(5.0f)) {
-            System.out.println(model.toString());
-        }
+    private void showWeather() {
+        weatherService.makeCall(edittextCity.getText());
+    }
 
+    @Override
+    public void onWeatherUpdate(WeatherData data) {
+        Platform.runLater(() ->  labelWeather.setText("Temperatura: " + data.getTemp()));
 
-      
+        WeatherModel model = new WeatherModel(0, data.getCity(), data.getTemp());
+        weatherDao.saveWeather(model);
     }
 }
