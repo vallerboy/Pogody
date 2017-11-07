@@ -9,13 +9,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.oskarpolak.controllers.MainController">
    <children>
-      <Button fx:id="buttonHey" blendMode="RED" cache="true" contentDisplay="CENTER" layoutX="22.0" layoutY="32.0" prefHeight="336.0" prefWidth="557.0" style="-fx-background-color: green;" text="HEJ" textAlignment="CENTER" textFill="#dd0404" wrapText="true">
+      <Button fx:id="buttonWeather" blendMode="RED" cache="true" contentDisplay="CENTER" layoutX="154.0" layoutY="310.0" prefHeight="3.0" prefWidth="292.0" style="-fx-background-color: green;" text="Pokaż temperature" textAlignment="CENTER" textFill="#dd0404" wrapText="true">
          <font>
-            <Font size="62.0" />
+            <Font size="29.0" />
          </font>
       </Button>
+      <TextField fx:id="edittextCity" layoutX="97.0" layoutY="268.0" prefHeight="25.0" prefWidth="407.0" promptText="Wpisz miasto" />
+      <Label fx:id="labelWeather" alignment="CENTER" layoutX="130.0" layoutY="59.0" prefHeight="111.0" prefWidth="340.0" text="Tutaj będzie temperatura" textFill="#d70909">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

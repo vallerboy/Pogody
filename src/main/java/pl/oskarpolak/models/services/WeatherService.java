@@ -30,5 +30,6 @@ public class WeatherService {
 
         int temp = main.getInt("temp");
         System.out.println("Temperatura to: " + temp);
+        //zachmurzenie
     }
 }

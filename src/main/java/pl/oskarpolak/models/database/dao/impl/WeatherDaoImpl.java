@@ -34,20 +34,61 @@ public class WeatherDaoImpl implements WeatherDao {
         PreparedStatement statement = databaseConnector.createStatement(
                 "SELECT * FROM weather WHERE cityname = ?"
         );
-        WeatherModel model;
         try {
             statement.setString(1, city);
             ResultSet set = statement.executeQuery();
-            while (set.next()){
-                model = new WeatherModel(set.getInt("id"),
-                        set.getString("cityname"),
-                        set.getFloat("temp"));
-                weatherModels.add(model);
-            }
+            createModels(weatherModels, set);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return weatherModels;
     }
+
+    @Override
+    public List<WeatherModel> loadWeather() {
+        List<WeatherModel> weatherModels = new ArrayList<>();
+
+        PreparedStatement statement = databaseConnector.createStatement(
+                "SELECT * FROM weather"
+        );
+        try {
+            ResultSet set = statement.executeQuery();
+            createModels(weatherModels, set);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return weatherModels;
+    }
+
+    @Override
+    public List<WeatherModel> loadWeather(float temp) {
+        List<WeatherModel> weatherModels = new ArrayList<>();
+
+        PreparedStatement statement = databaseConnector.createStatement(
+                "SELECT * FROM weather WHERE temp = ?"
+        );
+        try {
+            statement.setFloat(1, temp);
+            ResultSet set = statement.executeQuery();
+            createModels(weatherModels, set);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return weatherModels;
+    }
+
+    private void createModels(List<WeatherModel> weatherModels, ResultSet set) throws SQLException {
+        WeatherModel model;
+        while (set.next()){
+            model = new WeatherModel(set.getInt("id"),
+                    set.getString("cityname"),
+                    set.getFloat("temp"));
+            weatherModels.add(model);
+        }
+    }
+
+
 }

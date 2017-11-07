@@ -4,6 +4,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import pl.oskarpolak.models.WeatherModel;
 import pl.oskarpolak.models.database.DatabaseConnector;
@@ -19,7 +21,13 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable{
 
     @FXML
-    Button buttonHey;
+    Button buttonWeather;
+
+    @FXML
+    Label labelWeather;
+
+    @FXML
+    TextField edittextCity;
 
     private WeatherDao weatherDao = new WeatherDaoImpl();
     private WeatherService weatherService = WeatherService.getService();
@@ -30,12 +38,11 @@ public class MainController implements Initializable{
 //        weatherDao.saveWeather(weatherModel);
         weatherService.makeCall("Cracow");
 
+        for (WeatherModel model : weatherDao.loadWeather(5.0f)) {
+            System.out.println(model.toString());
+        }
 
-        buttonHey.setOnMouseClicked(new EventHandler<MouseEvent>() {
-           public void handle(MouseEvent event) {
-               if(event.isAltDown())
-               System.out.println("Test");
-           }
-       });
+
+      
     }
 }
